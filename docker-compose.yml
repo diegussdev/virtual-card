@@ -1,0 +1,40 @@
+version: '3.7'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.local
+    container_name: virtual-card
+    restart: unless-stopped
+    tty: true
+    working_dir: /var/www/html
+    volumes:
+      - ./app:/var/www/html
+    networks:
+      - network
+    ports:
+      - "80:80"
+      - "443:443"
+      - "6001:6001"
+  database:
+    image: bitnami/mariadb:latest
+    container_name: database
+    restart: unless-stopped
+    expose:
+      - 3306
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./.docker/database/data:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=virtual-card
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+      - MARIADB_ROOT_PASSWORD=root
+    networks:
+      - network
+
+networks:
+  network:
+    name: network
+    driver: bridge
