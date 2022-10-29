@@ -14,6 +14,7 @@
 - Start Docker and run `docker-compose --env-file ./app/.env up`
 - Access the application container `docker exec -it virtual-card bash`
 - Run the migrations `php artisan migrate`
+- Run the tests `php artisan test`
 - Access `localhost` in browser
 
 # Result
