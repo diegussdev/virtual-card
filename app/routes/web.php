@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [ProfileController::class, 'home'])->name('home');
+Route::get('/generate', [ProfileController::class, 'generate'])->name('generate');
+Route::post('/profile-store', [ProfileController::class, 'store'])->name('profile-store');
+Route::get('/qr-code/{slug}', fn()=>'qr-code')->name('qr-code');
