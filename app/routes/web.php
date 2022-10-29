@@ -18,4 +18,4 @@ Route::get('/', [ProfileController::class, 'home'])->name('home');
 Route::get('/generate', [ProfileController::class, 'generate'])->name('generate');
 Route::post('/profile-store', [ProfileController::class, 'store'])->name('profile-store');
 Route::get('/qr-code/{profile:slug}', [ProfileController::class, 'qrCode'])->name('qr-code');
-Route::get('/profile/{profile:slug}', fn()=>'profile')->name('profile');
+Route::get('/profile/{profile:slug}', [ProfileController::class, 'view'])->name('profile');

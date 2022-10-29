@@ -35,6 +35,14 @@ class ProfileController extends Controller
     }
 
     /**
+     * View
+     */
+    public function view(Profile $profile)
+    {
+        return view('pages.view', ['profile' => $profile]);
+    }
+
+    /**
      * Store profile
      * 
      * @param Request $reques
