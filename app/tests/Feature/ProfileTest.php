@@ -9,7 +9,7 @@ use Tests\TestCase;
 class ProfileTest extends TestCase
 {
     /**
-     * A basic feature test example.
+     * Test store profile
      *
      * @return void
      */
