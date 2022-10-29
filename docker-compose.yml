@@ -17,23 +17,19 @@ services:
       - "443:443"
       - "6001:6001"
   database:
-    image: bitnami/mariadb:latest
-    container_name: database
-    restart: unless-stopped
-    expose:
-      - 3306
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
     ports:
-      - "3306:3306"
+      - '${DB_PORT}:3306'
     volumes:
       - ./.docker/database/data:/var/lib/mysql
-    environment:
-      - MYSQL_DATABASE=virtual-card
-      - MYSQL_USER=root
-      - MYSQL_PASSWORD=root
-      - MARIADB_ROOT_PASSWORD=root
     networks:
       - network
-
 networks:
   network:
     name: network
