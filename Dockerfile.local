@@ -5,6 +5,18 @@ ENV APACHE_LOG_DIR /var/log/apache2
 
 RUN apt-get update && apt-get install git libzip-dev vim -y
 
+# Setup GD extension
+RUN apt-get update && apt-get install -y \
+        libfreetype6-dev \
+        libjpeg62-turbo-dev \
+        libpng-dev \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) gd
+RUN apt-get update && apt-get install -y \
+    libmagickwand-dev --no-install-recommends \
+    && pecl install imagick \
+	&& docker-php-ext-enable imagick
+
 RUN docker-php-ext-install zip mysqli pdo pdo_mysql
 
 RUN pecl install xdebug

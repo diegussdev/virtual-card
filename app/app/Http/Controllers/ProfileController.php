@@ -6,7 +6,7 @@ use App\Models\Profile;
 use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
+use SimpleSoftwareIO\QrCode\Facade as QrCode;
 
 class ProfileController extends Controller
 {
@@ -27,6 +27,14 @@ class ProfileController extends Controller
     }
 
     /**
+     * QR code page
+     */
+    public function qrCode(Profile $profile)
+    {
+        return view('pages.qr-code', ['profile' => $profile]);
+    }
+
+    /**
      * Store profile
      * 
      * @param Request $reques
@@ -40,7 +48,8 @@ class ProfileController extends Controller
         $profile->github_url = (string) $request->github_url;
         $profile->about = (string) $request->about;
         $profile->slug = SlugController::generateUniqueSlug($profile->name);
-        $profile->qr_code = Str::uuid(); // TODO:: generate qrcode
+        $qrcode = QrCode::format('png')->size(250)->generate(url('profile', ['slug' => $profile->slug]));
+        $profile->qr_code = base64_encode($qrcode);
 
         try {
             $profile->save();
@@ -48,6 +57,6 @@ class ProfileController extends Controller
             return back()->with('error','Error on generate image.');
         }
 
-        return redirect()->route('qr-code', ['slug' => $profile->slug]);
+        return redirect()->route('qr-code', ['profile' => $profile->slug]);
     }
 }
