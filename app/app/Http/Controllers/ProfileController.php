@@ -39,7 +39,7 @@ class ProfileController extends Controller
         $profile->linkedin_url = (string) $request->linkedin_url;
         $profile->github_url = (string) $request->github_url;
         $profile->about = (string) $request->about;
-        $profile->slug = Str::uuid(); // TODO:: generate unique slug
+        $profile->slug = SlugController::generateUniqueSlug($profile->name);
         $profile->qr_code = Str::uuid(); // TODO:: generate qrcode
 
         try {
